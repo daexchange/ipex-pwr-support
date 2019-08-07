@@ -39,7 +39,6 @@ import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import ai.turbochain.ipex.wallet.entity.Account;
 import ai.turbochain.ipex.wallet.entity.Coin;
 import ai.turbochain.ipex.wallet.entity.Contract;
-import ai.turbochain.ipex.wallet.util.EthConvert;
 import ai.turbochain.ipex.wallet.util.MessageResult;
 
 
@@ -78,7 +77,6 @@ public class EthService {
         BigDecimal balance = getBalance(address);
         accountService.updateBalance(address, balance);
     }
-
 
     public MessageResult transferFromWithdrawWallet(String toAddress, BigDecimal amount, boolean sync, String withdrawId) {
         return transfer(coin.getKeystorePath() + "/" + coin.getWithdrawWallet(), coin.getWithdrawWalletPassword(), toAddress, amount, sync,withdrawId);
@@ -212,7 +210,8 @@ public class EthService {
             e.printStackTrace();
             logger.info("查询接口ERROR");
         }
-        return  EthConvert.fromWei(new BigDecimal(balance), contract.getUnit());
+        //return  EthConvert.fromWei(new BigDecimal(balance), contract.getUnit());
+        return Convert.fromWei(new BigDecimal(balance), Convert.Unit.ETHER);
     }
 
     public BigDecimal getMinerFee(BigInteger gasLimit) throws IOException {
